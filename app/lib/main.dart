@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:readability/home_screen.dart';
 import 'package:camera/camera.dart';
 
-List<CameraDescription>cameras;
+List<CameraDescription> cameras;
 
-Future<Null> main() async {
-  cameras = await availableCameras();
+Future<void> main() async {
+  try {
+    cameras = await availableCameras();
+  } on CameraException catch (e) {
+    logError(e.code, e.description);
+  }
   runApp(new MyApp());
 }
 
@@ -21,3 +25,6 @@ class MyApp extends StatelessWidget {
         home: new HomeScreen(cameras));
   }
 }
+
+void logError(String code, String message) =>
+    print('Error: $code\nError Message: $message');

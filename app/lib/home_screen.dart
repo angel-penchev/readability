@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:readability/screens/scan_screen.dart';
-import 'package:readability/screens/open_screen.dart';
+import 'package:readability/screens/scan_screen/scan_screen.dart';
+import 'package:readability/screens/open_screen/open_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   var cameras;
