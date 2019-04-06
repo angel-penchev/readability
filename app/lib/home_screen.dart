@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:readability/screens/scan_screen/scan_screen.dart';
-import 'package:readability/screens/open_screen/open_screen.dart';
+import 'package:readability/screens/scan_screen.dart';
+import 'package:readability/screens/open_screen.dart';
+import 'package:readability/screens/settings_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   var cameras;
@@ -29,16 +30,18 @@ class _HomeScreenState extends State<HomeScreen>
           controller: _tabController,
           indicatorColor: Colors.white,
           tabs: <Widget>[
-            new Tab(icon: new Icon(Icons.camera_alt)),
             new Tab(icon: new Icon(Icons.pages)),
+            new Tab(icon: new Icon(Icons.camera_alt)),
+            new Tab(icon: new Icon(Icons.settings)),
           ],
         ),
       ),
       body: new TabBarView(
         controller: _tabController,
         children: <Widget>[
-          new ScanScreen(widget.cameras),
           new OpenScreen(),
+          new ScanScreen(widget.cameras),
+          new SettingsScreen(),
         ],
       ),
     );

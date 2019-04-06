@@ -12,30 +12,28 @@ class _OpenScreen extends State<OpenScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: PageView(
-          scrollDirection: Axis.vertical,
-          controller: ctrl,
-          children: [
-            FutureBuilder(
-              future: _getLocalFile("Pictures/1554055531209.jpg"),
-              builder: (BuildContext context, AsyncSnapshot<File> snapshot) {
-                return snapshot.data != null
-                    ? new Image.file(snapshot.data)
-                    : new Container();
-              },
-            ),
-            FutureBuilder(
-              future: _getLocalFile("Pictures/1554059005529.jpg"),
-              builder: (BuildContext context, AsyncSnapshot<File> snapshot) {
-                return snapshot.data != null
-                    ? new Image.file(snapshot.data)
-                    : new Container();
-              },
-            ),
-          ],
-        ),
+    return Scaffold(
+      body: PageView(
+        scrollDirection: Axis.vertical,
+        controller: ctrl,
+        children: [
+          FutureBuilder(
+            future: _getLocalFile("Pictures/1554055531209.jpg"),
+            builder: (BuildContext context, AsyncSnapshot<File> snapshot) {
+              return snapshot.data != null
+                  ? new Image.file(snapshot.data)
+                  : new Container();
+            },
+          ),
+          FutureBuilder(
+            future: _getLocalFile("Pictures/1554059005529.jpg"),
+            builder: (BuildContext context, AsyncSnapshot<File> snapshot) {
+              return snapshot.data != null
+                  ? new Image.file(snapshot.data)
+                  : new Container();
+            },
+          ),
+        ],
       ),
     );
   }
