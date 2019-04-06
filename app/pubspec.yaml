@@ -10,6 +10,8 @@ dev_dependencies:
   path_provider:
   video_player:
   camera:
+  firebase_core:
+  firebase_ml_vision:
 
 flutter:
   uses-material-design: true

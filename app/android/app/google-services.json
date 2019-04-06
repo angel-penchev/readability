@@ -1,0 +1,44 @@
+{
+  "project_info": {
+    "project_number": "148546189114",
+    "firebase_url": "https://readability-wwdil.firebaseio.com",
+    "project_id": "readability-wwdil",
+    "storage_bucket": "readability-wwdil.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:148546189114:android:8e23597976e6a7c1",
+        "android_client_info": {
+          "package_name": "com.wewilldevelopitlater.readability"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "148546189114-md24c87cdokd0hrpr8gr0oq8ad1t6kh1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wewilldevelopitlater.readability",
+            "certificate_hash": "c41c5d568cde6b2f47546c30c706659594aec193"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDRDUgnCtoecEnJ1FQdUR85wxQ50rtgbls"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "148546189114-hs9oltnnj6qluq31j95hdogbggipamhl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
