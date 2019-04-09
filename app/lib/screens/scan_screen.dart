@@ -34,8 +34,19 @@ void logError(String code, String message) =>
 class _ScanScreenState extends State<ScanScreen> {
   CameraController controller;
   String imagePath;
-
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
+  void initState() {
+    super.initState();
+    controller = CameraController(widget.cameras[0], ResolutionPreset.high);
+    controller.initialize().then((_) {
+      if (!mounted) {
+        return;
+      }
+      setState(() {});
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,16 +68,6 @@ class _ScanScreenState extends State<ScanScreen> {
             ),
           ),
           _captureControlRowWidget(),
-          Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                _cameraTogglesRowWidget(),
-                _thumbnailWidget(),
-              ],
-            ),
-          ),
         ],
       ),
     );
@@ -91,28 +92,6 @@ class _ScanScreenState extends State<ScanScreen> {
     }
   }
 
-  /// Display the thumbnail of the captured image or video.
-  Widget _thumbnailWidget() {
-    return Expanded(
-      child: Align(
-        alignment: Alignment.centerRight,
-        child: imagePath == null
-            ? null
-            : SizedBox(
-                child: (imagePath == null)
-                    ? Image.file(File(imagePath))
-                    : Container(
-                        child: Center(),
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.pink)),
-                      ),
-                width: 64.0,
-                height: 64.0,
-              ),
-      ),
-    );
-  }
-
   /// Display the control bar with buttons to take pictures and record videos.
   Widget _captureControlRowWidget() {
     return Row(
@@ -128,33 +107,6 @@ class _ScanScreenState extends State<ScanScreen> {
         ),
       ],
     );
-  }
-
-  /// Display a row of toggle to select the camera (or a message if no camera is available).
-  Widget _cameraTogglesRowWidget() {
-    final List<Widget> toggles = <Widget>[];
-
-    if (widget.cameras.isEmpty) {
-      return const Text('No camera found');
-    } else {
-      for (CameraDescription cameraDescription in widget.cameras) {
-        toggles.add(
-          SizedBox(
-            width: 90.0,
-            child: RadioListTile<CameraDescription>(
-              title: Icon(getCameraLensIcon(cameraDescription.lensDirection)),
-              groupValue: controller?.description,
-              value: cameraDescription,
-              onChanged: controller != null
-                  ? null
-                  : onNewCameraSelected,
-            ),
-          ),
-        );
-      }
-    }
-
-    return Row(children: toggles);
   }
 
   String timestamp() => DateTime.now().millisecondsSinceEpoch.toString();
