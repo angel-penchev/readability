@@ -8,9 +8,8 @@ dependencies:
 
 dev_dependencies:
   path_provider:
-  video_player:
   camera:
-  firebase_core:
+  firebase_core: 0.3.1+1
   firebase_ml_vision:
 
 flutter:
