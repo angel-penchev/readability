@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:readability/screens/recognition_screen.dart';
 
 class ScanScreen extends StatefulWidget {
   var cameras;
@@ -101,9 +102,16 @@ class _ScanScreenState extends State<ScanScreen> {
         IconButton(
           icon: const Icon(Icons.camera_alt),
           color: Colors.blue,
-          onPressed: controller != null && controller.value.isInitialized
-              ? onTakePictureButtonPressed
-              : null,
+          onPressed: () {
+            if (controller != null && controller.value.isInitialized) {
+              onTakePictureButtonPressed();
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => RecognitionScreen(imagePath)),
+              );
+            }
+          },
         ),
       ],
     );
@@ -115,29 +123,34 @@ class _ScanScreenState extends State<ScanScreen> {
     _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(message)));
   }
 
-  void onNewCameraSelected(CameraDescription cameraDescription) async {
-    if (controller != null) {
-      await controller.dispose();
-    }
-    controller = CameraController(cameraDescription, ResolutionPreset.high);
+  showOverlay(BuildContext context) async {
+    OverlayState overlayState = Overlay.of(context);
+    OverlayEntry overlayEntry = OverlayEntry(
+        builder: (context) => Positioned(
+              top: 40.0,
+              right: 10.0,
+              child: CircleAvatar(
+                radius: 10.0,
+                backgroundColor: Colors.red,
+                child: Text("1"),
+              ),
+            ));
 
-    // If the controller is updated then update the UI.
-    controller.addListener(() {
-      if (mounted) setState(() {});
-      if (controller.value.hasError) {
-        showInSnackBar('Camera error ${controller.value.errorDescription}');
-      }
-    });
+// OverlayEntry overlayEntry = OverlayEntry(
+//         builder: (context) => Positioned(
+//               top: MediaQuery.of(context).size.height / 2.0,
+//               width: MediaQuery.of(context).size.width / 2.0,
+//               child: CircleAvatar(
+//                 radius: 50.0,
+//                 backgroundColor: Colors.red,
+//                 child: Text("1"),
+//               ),
+//             ));
+    overlayState.insert(overlayEntry);
 
-    try {
-      await controller.initialize();
-    } on CameraException catch (e) {
-      _showCameraException(e);
-    }
+    await Future.delayed(Duration(seconds: 2));
 
-    if (mounted) {
-      setState(() {});
-    }
+    overlayEntry.remove();
   }
 
   void onTakePictureButtonPressed() {
@@ -162,7 +175,6 @@ class _ScanScreenState extends State<ScanScreen> {
     final String dirPath = '${extDir.path}/Pictures';
     await Directory(dirPath).create(recursive: true);
     final String filePath = '$dirPath/$currentTimestamp.jpg';
-    writeToJSON(currentTimestamp);
 
     if (controller.value.isTakingPicture) {
       // A capture is already pending, do nothing.
@@ -181,13 +193,5 @@ class _ScanScreenState extends State<ScanScreen> {
   void _showCameraException(CameraException e) {
     logError(e.code, e.description);
     showInSnackBar('Error: ${e.code}\n${e.description}');
-  }
-
-  void writeToJSON(String timestamp) {
-    print("Writing to file!");
-
-    Map<String, dynamic> content = new Map();
-    content.addAll({"timestamp": timestamp});
-    print(content);
   }
 }
