@@ -13,35 +13,23 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
-  TabController _tabController;
+  final PageController _pageController = PageController(initialPage: 1);
 
   @override
   void initState() {
     super.initState();
-    _tabController = new TabController(vsync: this, initialIndex: 1, length: 4);
   }
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(
-        title: Text("Readability"),
-        bottom: new TabBar(
-          controller: _tabController,
-          indicatorColor: Colors.white,
-          tabs: <Widget>[
-            new Tab(icon: new Icon(Icons.pages)),
-            new Tab(icon: new Icon(Icons.camera_alt)),
-            new Tab(icon: new Icon(Icons.settings)),
-          ],
-        ),
-      ),
-      body: new TabBarView(
-        controller: _tabController,
+      body: PageView(
+        scrollDirection: Axis.vertical,
+        controller: _pageController,
         children: <Widget>[
-          new OpenScreen(),
-          new ScanScreen(widget.cameras),
-          new SettingsScreen(),
+          SettingsScreen(),
+          ScanScreen(widget.cameras),
+          OpenScreen(),
         ],
       ),
     );

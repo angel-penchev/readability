@@ -14,7 +14,7 @@ class _OpenScreen extends State<OpenScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: PageView(
-        scrollDirection: Axis.vertical,
+        scrollDirection: Axis.horizontal,
         controller: ctrl,
         children: [
           FutureBuilder(
