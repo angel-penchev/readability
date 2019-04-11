@@ -40,7 +40,7 @@ class _ScanScreenState extends State<ScanScreen> {
   @override
   void initState() {
     super.initState();
-    controller = CameraController(widget.cameras[0], ResolutionPreset.high);
+    controller = CameraController(widget.cameras[0], ResolutionPreset.low);
     controller.initialize().then((_) {
       if (!mounted) {
         return;
@@ -78,7 +78,7 @@ class _ScanScreenState extends State<ScanScreen> {
   Widget _cameraPreviewWidget() {
     if (controller == null || !controller.value.isInitialized) {
       return const Text(
-        'Tap a camera',
+        'Initializing camera...',
         style: TextStyle(
           color: Colors.white,
           fontSize: 24.0,
@@ -105,11 +105,6 @@ class _ScanScreenState extends State<ScanScreen> {
           onPressed: () {
             if (controller != null && controller.value.isInitialized) {
               onTakePictureButtonPressed();
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => RecognitionScreen(imagePath)),
-              );
             }
           },
         ),
@@ -159,7 +154,14 @@ class _ScanScreenState extends State<ScanScreen> {
         setState(() {
           imagePath = filePath;
         });
-        if (filePath != null) showInSnackBar('Picture saved to $filePath');
+        if (filePath != null) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => RecognitionScreen(File('$imagePath')),
+            ),
+          );
+        }
       }
     });
   }
