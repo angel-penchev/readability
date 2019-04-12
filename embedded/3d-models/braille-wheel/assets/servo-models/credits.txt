@@ -1,0 +1,1 @@
+Thanks to all the contributiors to the "https://github.com/FreeCAD/FreeCAD-library.git" repo and expecially to @Gafeju for creating the 90deg Servo 3D models that we used!
