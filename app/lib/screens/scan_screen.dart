@@ -5,6 +5,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:readability/screens/recognition_screen.dart';
+import 'package:readability/ui_elements.dart';
 
 class ScanScreen extends StatefulWidget {
   var cameras;
@@ -39,44 +40,13 @@ class _ScanScreenState extends State<ScanScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-            colors: [
-              Color(0xFF1b1e44),
-              Color(0xFF2d3447),
-            ],
-            begin: Alignment.bottomCenter,
-            end: Alignment.topCenter,
-            tileMode: TileMode.clamp),
-      ),
+      decoration: uiScreenDecoration(0xFF1b1e44, 0xFF2d3447),
       child: Column(
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(
-                left: 12.0, right: 12.0, top: 30.0, bottom: 30.0),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  "Scan",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 46.0,
-                    fontFamily: "Calibre-Semibold",
-                    letterSpacing: 1.0,
-                  ),
-                ),
-              ],
-            ),
-          ),
+          uiScreenPadding(),
+          uiScreenHeading("Scan"),
           Expanded(
             child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20.0),
-              ),
               child: Padding(
                 padding: const EdgeInsets.all(1.0),
                 child: Center(
@@ -109,29 +79,7 @@ class _ScanScreenState extends State<ScanScreen> {
           child: Stack(
             children: <Widget>[
               CameraPreview(controller),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                      child: Text(
-                        "Tap to capture",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 25.0,
-                            fontFamily: "SF-Pro-Text-Regular"),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                  ],
-                ),
-              ),
+              uiCardHeading("Tap to capture"),
             ],
           ),
         ),
