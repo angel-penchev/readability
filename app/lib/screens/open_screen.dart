@@ -79,7 +79,7 @@ class CardScrollWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new AspectRatio(
+    return AspectRatio(
       aspectRatio: widgetAspectRatio,
       child: LayoutBuilder(builder: (context, contraints) {
         var width = contraints.maxWidth;
@@ -111,30 +111,12 @@ class CardScrollWidget extends StatelessWidget {
             bottom: padding + verticalInset * max(-delta, 0.0),
             start: start,
             textDirection: TextDirection.rtl,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(16.0),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black12,
-                      offset: Offset(3.0, 6.0),
-                      blurRadius: 10.0,
-                    ),
-                  ],
-                ),
-                child: AspectRatio(
-                  aspectRatio: cardAspectRatio,
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: <Widget>[
-                      Image.asset(images[i], fit: BoxFit.cover),
-                      uiCardHeading(title[i]),
-                    ],
-                  ),
-                ),
-              ),
+            child: uiCard(
+              cardAspectRatio,
+              <Widget>[
+                Image.asset(images[i], fit: BoxFit.cover),
+                uiCardHeading(title[i]),
+              ],
             ),
           );
           cardList.add(cardItem);

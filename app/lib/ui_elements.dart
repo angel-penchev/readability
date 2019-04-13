@@ -41,6 +41,31 @@ Widget uiScreenHeading(String headingText) {
   );
 }
 
+Widget uiCard(double cardAspectRatio, content) {
+  return ClipRRect(
+    borderRadius: BorderRadius.circular(16.0),
+    child: Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black12,
+            offset: Offset(3.0, 6.0),
+            blurRadius: 10.0,
+          ),
+        ],
+      ),
+      child: AspectRatio(
+        aspectRatio: cardAspectRatio,
+        child: Stack(
+          fit: StackFit.expand,
+          children: content,
+        ),
+      ),
+    ),
+  );
+}
+
 Widget uiCardHeading(String headingText) {
   return Align(
     alignment: Alignment.bottomCenter,

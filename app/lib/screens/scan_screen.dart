@@ -28,7 +28,10 @@ class _ScanScreenState extends State<ScanScreen> {
   @override
   void initState() {
     super.initState();
-    controller = CameraController(widget.cameras[0], ResolutionPreset.high,);
+    controller = CameraController(
+      widget.cameras[0],
+      ResolutionPreset.high,
+    );
     controller.initialize().then((_) {
       if (!mounted) {
         return;
@@ -74,14 +77,12 @@ class _ScanScreenState extends State<ScanScreen> {
     } else {
       return IconButton(
         iconSize: 1000,
-        icon: AspectRatio(
-          aspectRatio: controller.value.aspectRatio,
-          child: Stack(
-            children: <Widget>[
-              CameraPreview(controller),
-              uiCardHeading("Tap to capture"),
-            ],
-          ),
+        icon: uiCard(
+          controller.value.aspectRatio,
+          <Widget>[
+            CameraPreview(controller),
+            uiCardHeading("Tap to capture"),
+          ],
         ),
         onPressed: () {
           if (controller != null && controller.value.isInitialized) {

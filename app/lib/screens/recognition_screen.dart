@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
+import 'package:readability/ui_elements.dart';
 
 class RecognitionScreen extends StatefulWidget {
   final File _imageFile;
@@ -15,10 +16,11 @@ class RecognitionScreen extends StatefulWidget {
 
 class _RecognitionScreenState extends State<RecognitionScreen> {
   Future processText() async {
-    FirebaseVisionImage visionImage = FirebaseVisionImage.fromFile(widget._imageFile);
+    FirebaseVisionImage visionImage =
+        FirebaseVisionImage.fromFile(widget._imageFile);
     TextRecognizer textRecognizer = FirebaseVision.instance.textRecognizer();
     VisionText visionText = await textRecognizer.processImage(visionImage);
-    
+
     for (TextBlock block in visionText.blocks) {
       for (TextLine line in block.lines) {
         for (TextElement element in line.elements) {
@@ -30,11 +32,15 @@ class _RecognitionScreenState extends State<RecognitionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
+    return Container(
+      decoration: uiScreenDecoration(0xFF1b1e44, 0xFF2d3447),
+      child: Column(
         children: <Widget>[
+          uiScreenPadding(),
           buildImage(context),
-          buildTextList(["Recognised text goes here..."])
+          buildTextList(
+            ["Recognised text goes here..."],
+          ),
         ],
       ),
     );
@@ -42,25 +48,10 @@ class _RecognitionScreenState extends State<RecognitionScreen> {
 
   Widget buildImage(BuildContext context) {
     return Expanded(
-      flex: 2,
-      child: Container(
-        decoration: BoxDecoration(color: Colors.black),
-        child: Center(
-          child: widget._imageFile == null
-              ? Text('No Image')
-              : FutureBuilder<Size>(
-                  future: _getImageSize(
-                      Image.file(widget._imageFile, fit: BoxFit.fitWidth)),
-                  builder:
-                      (BuildContext context, AsyncSnapshot<Size> snapshot) {
-                    if (snapshot.hasData) {
-                      return Image.file(widget._imageFile, fit: BoxFit.fitWidth);
-                    } else {
-                      return CircularProgressIndicator();
-                    }
-                  },
-                ),
-        ),
+      flex: 1,
+      child: uiCard(
+        16 / 9,
+        <Widget>[Image.file(widget._imageFile)],
       ),
     );
   }
@@ -69,7 +60,7 @@ class _RecognitionScreenState extends State<RecognitionScreen> {
     processText();
     if (texts.length == 0) {
       return Expanded(
-          flex: 1,
+          flex: 2,
           child: Center(
             child: Text('No text detected',
                 style: Theme.of(context).textTheme.subhead),
@@ -82,20 +73,12 @@ class _RecognitionScreenState extends State<RecognitionScreen> {
             padding: const EdgeInsets.all(1.0),
             itemCount: texts.length,
             itemBuilder: (context, i) {
-              return _buildTextRow(texts);
+              return uiScreenHeading("text");
             }),
       ),
     );
   }
 
-  Widget _buildTextRow(text) {
-    return ListTile(
-      title: Text(
-        "$text",
-      ),
-      dense: true,
-    );
-  }
 
   Future<Size> _getImageSize(Image image) {
     Completer<Size> completer = Completer<Size>();
