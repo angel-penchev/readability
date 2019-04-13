@@ -1,5 +1,5 @@
 name: readability
-description: A new Flutter project.
+description: The app that converts captured text to braille alphabet.
 version: 1.0.0+1
 
 dependencies:
@@ -14,6 +14,28 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+   - assets/img/image_01.png
+   - assets/img/image_02.jpg
+   - assets/img/image_03.jpg
+   - assets/img/image_04.jpg
+
+  fonts:
+  - family: SF-Pro-Regular
+    fonts:
+      - asset: assets/fonts/sf_pro_regular.otf
+
+  - family: SF-Pro-Bold
+    fonts:
+      - asset: assets/fonts/sf_pro_bold.otf
+
+  - family: Calibre-Semibold
+    fonts:
+      - asset: assets/fonts/calibre_semibold.otf
+
+  - family: CustomIcons
+    fonts:
+      - asset: assets/fonts/custom_icons.ttf
 
 environment:
   sdk: ">=2.0.0-dev.28.0 <3.0.0"
