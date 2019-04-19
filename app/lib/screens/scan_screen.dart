@@ -7,9 +7,11 @@ import 'package:path_provider/path_provider.dart';
 import 'package:readability/screens/recognition_screen.dart';
 import 'package:readability/logic/ui_elements.dart';
 import 'package:readability/logic/json_prashing.dart';
+import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 
 class ScanScreen extends StatefulWidget {
   var cameras;
+
   ScanScreen(this.cameras);
 
   @override
@@ -31,6 +33,8 @@ class _ScanScreenState extends State<ScanScreen> {
   String jsonName = "captured.json";
   bool jsonExists = false;
   Map<String, String> jsonContent;
+
+  VisionText _scanResults;
 
   @override
   void initState() {
@@ -107,8 +111,6 @@ class _ScanScreenState extends State<ScanScreen> {
 
   String timestamp() => DateTime.now().millisecondsSinceEpoch.toString();
 
-
-
   showOverlay(BuildContext context) async {
     OverlayState overlayState = Overlay.of(context);
     OverlayEntry overlayEntry = OverlayEntry(
@@ -128,25 +130,56 @@ class _ScanScreenState extends State<ScanScreen> {
     overlayEntry.remove();
   }
 
+  Future<void> _scanText(String filePath) async {
+
+    setState(() {
+      _scanResults = null;
+    });
+
+
+    VisionText results;
+    final FirebaseVisionImage visionImage = FirebaseVisionImage.fromFilePath(filePath);
+
+    final TextRecognizer recognizer = FirebaseVision.instance.textRecognizer();
+    results = await recognizer.processImage(visionImage);
+
+    setState(() {
+      _scanResults = results;
+    });
+  }
+
   void onTakePictureButtonPressed() {
-    takePicture().then((String filePath) {
+    takePicture().then((String filePath) async {
       if (mounted) {
         setState(() {
           imagePath = filePath;
         });
         if (filePath != null) {
           // TODO: Add Firebase recognition and JSON phrasing here
+      
+//         _scanText(filePath);
+          
+          String recognizedText = "test";
+          final FirebaseVisionImage visionImage = FirebaseVisionImage.fromFilePath(filePath);
 
-          if(jsonFile == null) {
+          final TextRecognizer recognizer = FirebaseVision.instance.textRecognizer();
+          VisionText results = await recognizer.processImage(visionImage);
+          print(results.text);
+//          print(_scanResults);
+//          print(_scanResults.text);
+//          recognizedText = _scanResults.text;
+//          print(_scanResults.text);
+          /*if (jsonFile == null) {
             jsonFile = jsonCreate(dir, jsonName);
           }
+          print(recognizedText);
           jsonWrite(jsonFile, "imagePath", "$imagePath");
-
-
+*/
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => RecognitionScreen(File('$imagePath')),
+              builder: (context) =>
+                  RecognitionScreen(File('$imagePath'), '$recognizedText'),
             ),
           );
         }

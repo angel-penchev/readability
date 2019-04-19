@@ -1,12 +1,13 @@
 import 'dart:io';
-import 'dart:async';
+//import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:firebase_ml_vision/firebase_ml_vision.dart';
+//import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:readability/logic/ui_elements.dart';
 
 class RecognitionScreen extends StatefulWidget {
   final File _imageFile;
-  RecognitionScreen(this._imageFile);
+  final String _recognisedText;
+  RecognitionScreen(this._imageFile, this._recognisedText);
 
   @override
   State<StatefulWidget> createState() {
@@ -15,7 +16,7 @@ class RecognitionScreen extends StatefulWidget {
 }
 
 class _RecognitionScreenState extends State<RecognitionScreen> {
-  Future processText() async {
+  /*Future processText() async {
     FirebaseVisionImage visionImage =
         FirebaseVisionImage.fromFile(widget._imageFile);
     TextRecognizer textRecognizer = FirebaseVision.instance.textRecognizer();
@@ -28,7 +29,7 @@ class _RecognitionScreenState extends State<RecognitionScreen> {
         }
       }
     }
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +58,6 @@ class _RecognitionScreenState extends State<RecognitionScreen> {
   }
 
   Widget buildTextList(List<String> texts) {
-    processText();
     if (texts.length == 0) {
       return Expanded(
           flex: 2,
