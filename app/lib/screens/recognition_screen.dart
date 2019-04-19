@@ -3,11 +3,21 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 //import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:readability/logic/ui_elements.dart';
+import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 
 class RecognitionScreen extends StatefulWidget {
   final File _imageFile;
   final String _recognisedText;
   RecognitionScreen(this._imageFile, this._recognisedText);
+
+
+  FlutterBluetoothSerial serial = FlutterBluetoothSerial.instance;
+  List<BluetoothDevice> _devicesList = [];
+  BluetoothDevice _device;
+
+  void initState(){
+
+  }
 
   @override
   State<StatefulWidget> createState() {

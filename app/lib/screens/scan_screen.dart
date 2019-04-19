@@ -164,6 +164,9 @@ class _ScanScreenState extends State<ScanScreen> {
 
           final TextRecognizer recognizer = FirebaseVision.instance.textRecognizer();
           VisionText results = await recognizer.processImage(visionImage);
+
+
+
           print(results.text);
 //          print(_scanResults);
 //          print(_scanResults.text);
