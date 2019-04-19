@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:readability/ui_elements.dart';
+import 'package:readability/logic/ui_elements.dart';
 
 class SettingsScreen extends StatelessWidget {
   @override

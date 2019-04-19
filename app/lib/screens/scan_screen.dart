@@ -5,7 +5,8 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:readability/screens/recognition_screen.dart';
-import 'package:readability/ui_elements.dart';
+import 'package:readability/logic/ui_elements.dart';
+import 'package:readability/logic/json_prashing.dart';
 
 class ScanScreen extends StatefulWidget {
   var cameras;
@@ -25,6 +26,12 @@ class _ScanScreenState extends State<ScanScreen> {
   String imagePath;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
+  File jsonFile;
+  Directory dir;
+  String jsonName = "captured.json";
+  bool jsonExists = false;
+  Map<String, String> jsonContent;
+
   @override
   void initState() {
     super.initState();
@@ -38,6 +45,11 @@ class _ScanScreenState extends State<ScanScreen> {
       }
       setState(() {});
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -95,9 +107,7 @@ class _ScanScreenState extends State<ScanScreen> {
 
   String timestamp() => DateTime.now().millisecondsSinceEpoch.toString();
 
-  void showInSnackBar(String message) {
-    _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(message)));
-  }
+
 
   showOverlay(BuildContext context) async {
     OverlayState overlayState = Overlay.of(context);
@@ -125,6 +135,14 @@ class _ScanScreenState extends State<ScanScreen> {
           imagePath = filePath;
         });
         if (filePath != null) {
+          // TODO: Add Firebase recognition and JSON phrasing here
+
+          if(jsonFile == null) {
+            jsonFile = jsonCreate(dir, jsonName);
+          }
+          jsonWrite(jsonFile, "imagePath", "$imagePath");
+
+
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -138,7 +156,6 @@ class _ScanScreenState extends State<ScanScreen> {
 
   Future<String> takePicture() async {
     if (!controller.value.isInitialized) {
-      showInSnackBar('Error: select a camera first.');
       return null;
     }
 
@@ -164,6 +181,5 @@ class _ScanScreenState extends State<ScanScreen> {
 
   void _showCameraException(CameraException e) {
     logError(e.code, e.description);
-    showInSnackBar('Error: ${e.code}\n${e.description}');
   }
 }

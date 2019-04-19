@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
-import 'package:readability/ui_elements.dart';
+import 'package:readability/logic/ui_elements.dart';
 
 class OpenScreen extends StatefulWidget {
   createState() => _OpenScreen();

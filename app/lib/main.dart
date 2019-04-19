@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:readability/home_screen.dart';
+import 'package:readability/screens/home_screen.dart';
 import 'package:camera/camera.dart';
 
 List<CameraDescription> cameras;

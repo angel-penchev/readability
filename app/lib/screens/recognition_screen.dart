@@ -2,7 +2,7 @@ import 'dart:io';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
-import 'package:readability/ui_elements.dart';
+import 'package:readability/logic/ui_elements.dart';
 
 class RecognitionScreen extends StatefulWidget {
   final File _imageFile;
@@ -50,7 +50,7 @@ class _RecognitionScreenState extends State<RecognitionScreen> {
     return Expanded(
       flex: 1,
       child: uiCard(
-        16 / 9,
+        16/9,
         <Widget>[Image.file(widget._imageFile)],
       ),
     );
@@ -77,14 +77,5 @@ class _RecognitionScreenState extends State<RecognitionScreen> {
             }),
       ),
     );
-  }
-
-
-  Future<Size> _getImageSize(Image image) {
-    Completer<Size> completer = Completer<Size>();
-    image.image.resolve(ImageConfiguration()).addListener(
-        (ImageInfo info, bool _) => completer.complete(
-            Size(info.image.width.toDouble(), info.image.height.toDouble())));
-    return completer.future;
   }
 }
